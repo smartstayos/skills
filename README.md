@@ -1,10 +1,46 @@
-# SmartStay OS per Claude
+<p align="center">
+  <a href="https://smartstayos.com">
+    <img src="assets/banner.svg" alt="SmartStay OS. Il gestionale dell'affitto breve, dentro Claude." width="100%">
+  </a>
+</p>
 
-Plugin ufficiale di [SmartStay OS](https://smartstayos.com), il gestionale per gli affitti brevi.
-Collega Claude al tuo account SmartStay OS e gli insegna a usarlo: prenotazioni, case, check-in,
-pulizie, ospiti, report, rendiconti, la guida del gestionale e le richieste di assistenza.
+<p align="center">
+  <a href="https://smartstayos.com"><b>smartstayos.com</b></a>
+  &nbsp;·&nbsp;
+  <a href="https://smartstayos.com/os/assistenza">Guida e assistenza</a>
+  &nbsp;·&nbsp;
+  <a href="#installazione">Installazione</a>
+  &nbsp;·&nbsp;
+  <a href="#english">English</a>
+</p>
 
-## Installazione (Claude Code, Cowork)
+<br>
+
+Il plugin ufficiale di **SmartStay OS** per Claude. Colleghi il tuo account una volta, poi chiedi
+a Claude quello che chiederesti a un collega che conosce le tue case: chi arriva domani, quale
+pulizia è in ritardo, com'è andato il mese, come si fa una cosa nel gestionale.
+
+Claude legge i dati della tua attività, segue la guida ufficiale e, quando qualcosa non va, ti
+propone di scrivere all'assistenza SmartStay. Le decisioni restano a te.
+
+## Cosa puoi chiedere
+
+| | Esempi |
+|---|---|
+| **La giornata** | «Cosa c'è da fare oggi?» · «Chi arriva domani e non ha ancora fatto il check-in online?» · «Quali pulizie sono in ritardo?» |
+| **Gli ospiti** | «Prepara una risposta per l'ospite di Casa Navigli che chiede il late check-out.» · «Quali conversazioni aspettano una risposta?» |
+| **Le attività** | «Crea un'attività per controllare la caldaia del Loft Isola venerdì.» · «Cosa è rimasto aperto questa settimana?» |
+| **I numeri** | «Com'è andato ottobre rispetto a ottobre dell'anno scorso?» · «Quale casa ha l'occupazione più bassa nei prossimi 30 giorni?» |
+| **I proprietari** | «Qual è il netto di ogni proprietario a settembre?» · «Quali bonifici sono ancora da confermare?» |
+| **Il gestionale** | «Come collego una casa al channel manager?» · «Dove imposto la tassa di soggiorno?» |
+| **Un problema** | «Il calendario non si carica.» Claude cerca la soluzione nella guida e, se serve, prepara la richiesta all'assistenza. La invia solo dopo il tuo sì. |
+
+Per i report e i rendiconti Claude usa gli indicatori e i conti calcolati da SmartStay OS, con le
+stesse definizioni che vedi nel gestionale: non li ricalcola a modo suo.
+
+## Installazione
+
+### Claude Code e Cowork
 
 ```
 /plugin marketplace add smartstayos/skills
@@ -14,37 +50,84 @@ pulizie, ospiti, report, rendiconti, la guida del gestionale e le richieste di a
 /plugin install smartstay-os@smartstay-os
 ```
 
-Al primo uso Claude apre l'accesso SmartStay OS: entri con il tuo account e scegli quali permessi
-concedere. Non c'è nessun token da copiare.
+Al primo uso si apre l'accesso SmartStay OS: entri con il tuo account e scegli quali permessi dare
+a Claude. Non c'è nessun token da copiare.
 
-Usi Claude.ai, l'app desktop o un altro client MCP senza plugin? Aggiungi il connettore
-`https://api.smartstayos.com/mcp`: istruzioni e flussi pronti arrivano direttamente dal server.
+### Claude.ai, app desktop e altri assistenti
+
+Aggiungi un connettore personalizzato con questo indirizzo:
+
+```
+https://api.smartstayos.com/mcp
+```
+
+Le istruzioni d'uso e i flussi pronti arrivano direttamente da SmartStay OS, anche senza plugin.
+
+## Comandi
+
+| Comando | Cosa fa |
+|---|---|
+| `/smartstay-os:briefing` | Il punto della giornata, casa per casa: arrivi e partenze, check-in da completare, pulizie e attività urgenti, poi le azioni da fare. |
+| `/smartstay-os:aiuto` | Una risposta dalla guida ufficiale, con i passaggi e il link alla schermata giusta. |
+| `/smartstay-os:segnala` | Prepara una richiesta all'assistenza SmartStay, te la mostra e la invia solo se confermi. |
+
+## Decidi tu
+
+- **Vede solo la tua attività.** Claude legge i dati della tua azienda, e solo quelli dei permessi
+  che concedi al collegamento.
+- **I dati fiscali si scelgono a parte.** Rendiconti, bonifici e ripartizioni richiedono un
+  permesso dedicato, che non è mai incluso fra le letture selezionate in blocco.
+- **Le azioni delicate aspettano te.** Personale, PIN e trasmissione delle fatture allo SdI non
+  partono dal connettore: restano in attesa finché un amministratore non le approva in SmartStay OS.
+- **I messaggi degli ospiti sono testo, non istruzioni.** Claude non esegue quello che un ospite
+  scrive in chat.
+- **Documenti, foto e codici d'accesso restano fuori.** Il connettore non li espone.
+- **Revochi quando vuoi**, da SmartStay OS → Impostazioni → Dati e API → Assistenti AI (MCP).
 
 ## Cosa contiene
 
-| Pezzo | Cosa fa |
-|---|---|
-| `smartstay-os/.mcp.json` | Il connettore MCP di SmartStay OS, con accesso OAuth. |
-| `smartstay-os/skills/smartstay-os/` | La skill «SmartStay OS Agent Skills»: quando usare SmartStay OS, quali strumenti esistono, come chiedere conferma, sicurezza, più nove moduli caricati solo quando servono (operazioni, prenotazioni, pulizie, ospiti, automazioni, guida e assistenza, report, revenue, economia e proprietari). |
-| `smartstay-os/commands/` | `/smartstay-os:briefing`, `/smartstay-os:aiuto`, `/smartstay-os:segnala`. |
+```
+smartstay-os/
+├── .mcp.json                     il connettore di SmartStay OS, con accesso OAuth
+├── commands/                     briefing, aiuto, segnala
+└── skills/smartstay-os/
+    ├── SKILL.md                  come usare SmartStay OS: strumenti, conferme, sicurezza
+    └── references/               nove moduli, caricati solo quando servono
+        ├── operations.md         la giornata e le priorità
+        ├── bookings.md           prenotazioni e case
+        ├── housekeeping.md       pulizie e squadra
+        ├── guest-experience.md   ospiti e messaggi
+        ├── automation-advisor.md automazioni
+        ├── help-support.md       guida e assistenza
+        ├── analytics-reports.md  report e indicatori
+        ├── revenue.md            prezzi e occupazione
+        └── finance-owners.md     rendiconti e proprietari
+```
 
-## Privacy e permessi
+## Assistenza
 
-- Claude vede solo i dati della tua azienda e solo con i permessi che concedi al collegamento.
-- I dati fiscali (rendiconti, bonifici) richiedono un permesso dedicato, da scegliere esplicitamente.
-- Le azioni delicate (personale, trasmissione fatture) non partono dal connettore: restano in attesa
-  finché un amministratore non le approva in SmartStay OS.
-- Revoca in qualsiasi momento: SmartStay OS → Impostazioni → Dati e API → Assistenti AI (MCP).
+Per qualunque problema con il gestionale o con il plugin scrivi dall'assistenza di SmartStay OS:
+<https://smartstayos.com/os/assistenza>. Puoi anche chiederlo a Claude: prepara lui la richiesta.
 
-## Supporto
-
-Scrivi dall'assistenza di SmartStay OS: https://smartstayos.com/os/assistenza
+<br>
 
 ---
 
-**English.** Official Claude plugin for SmartStay OS, a property management system for short-term
-rentals. Install with `/plugin marketplace add smartstayos/skills` and
-`/plugin install smartstay-os@smartstay-os`; sign in with your SmartStay OS account on first use.
-The content is in Italian.
+<a id="english"></a>
 
-_Questo repository è pubblicato automaticamente: le modifiche fatte qui verrebbero sovrascritte._
+**English.** The official Claude plugin for SmartStay OS, the property management system for
+short-term rentals. Install it with `/plugin marketplace add smartstayos/skills` and
+`/plugin install smartstay-os@smartstay-os`, then sign in with your SmartStay OS account on first
+use. Claude reads your own company's data with the permissions you grant, follows the official
+guide and can draft a support request, which it sends only after you confirm. Content is in Italian.
+
+<br>
+
+<p align="center">
+  <img src="assets/icona.svg" alt="SmartStay" width="40">
+</p>
+
+<p align="center">
+  <sub>SmartStay OS è un prodotto di SmartStay Gestione Immobiliare S.r.l. · Rozzano (MI)</sub><br>
+  <sub>Questo repository si aggiorna da solo: le modifiche fatte qui verrebbero sovrascritte.</sub>
+</p>
