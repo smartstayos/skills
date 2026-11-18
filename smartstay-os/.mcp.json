@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "smartstay-os": {
+      "type": "http",
+      "url": "https://api.smartstayos.com/mcp"
+    }
+  }
+}
