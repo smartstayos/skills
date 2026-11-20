@@ -1,7 +1,7 @@
 {
   "name": "smartstay-os",
-  "version": "1.1.0",
-  "description": "SmartStay OS dentro Claude: i dati della tua attività di affitti brevi (prenotazioni, case, check-in, pulizie, ospiti), la guida del gestionale, le richieste di assistenza a SmartStay e una skill per integrare l'API REST nel tuo software.",
+  "version": "1.2.0",
+  "description": "SmartStay OS dentro Claude: i dati della tua attività di affitti brevi (prenotazioni, case, check-in, pulizie, ospiti), azioni con anteprima e approvazione, la guida del gestionale, le richieste di assistenza a SmartStay e una skill per integrare l'API REST nel tuo software.",
   "author": {
     "name": "SmartStay"
   },

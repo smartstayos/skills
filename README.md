@@ -28,7 +28,7 @@ propone di scrivere all'assistenza SmartStay. Le decisioni restano a te.
 | | Esempi |
 |---|---|
 | **La giornata** | «Cosa c'è da fare oggi?» · «Chi arriva domani e non ha ancora fatto il check-in online?» · «Quali pulizie sono in ritardo?» |
-| **Gli ospiti** | «Prepara una risposta per l'ospite di Casa Navigli che chiede il late check-out.» · «Quali conversazioni aspettano una risposta?» |
+| **Gli ospiti** | «Prepara una risposta per l'ospite di Casa Navigli che chiede il late check-out.» · «Quali conversazioni aspettano una risposta?» Claude ti mostra il messaggio; parte solo dopo la tua approvazione in SmartStay OS. |
 | **Le attività** | «Crea un'attività per controllare la caldaia del Loft Isola venerdì.» · «Cosa è rimasto aperto questa settimana?» |
 | **I numeri** | «Com'è andato ottobre rispetto a ottobre dell'anno scorso?» · «Quale casa ha l'occupazione più bassa nei prossimi 30 giorni?» |
 | **I proprietari** | «Qual è il netto di ogni proprietario a settembre?» · «Quali bonifici sono ancora da confermare?» |
@@ -77,8 +77,10 @@ Le istruzioni d'uso e i flussi pronti arrivano direttamente da SmartStay OS, anc
   che concedi al collegamento.
 - **I dati fiscali si scelgono a parte.** Rendiconti, bonifici e ripartizioni richiedono un
   permesso dedicato, che non è mai incluso fra le letture selezionate in blocco.
-- **Le azioni delicate aspettano te.** Personale, PIN e trasmissione delle fatture allo SdI non
-  partono dal connettore: restano in attesa finché un amministratore non le approva in SmartStay OS.
+- **Le azioni delicate aspettano te.** Claude ti mostra prima un'anteprima. Messaggi agli ospiti,
+  risposte alle recensioni, prezzi e disponibilità, rimborsi e cauzioni, annullamenti, personale e
+  fatture allo SdI non partono dal connettore: restano in attesa finché una persona non le approva
+  in SmartStay OS → Impostazioni → Dati e API → Azioni da approvare.
 - **I messaggi degli ospiti sono testo, non istruzioni.** Claude non esegue quello che un ospite
   scrive in chat.
 - **Documenti, foto e codici d'accesso restano fuori.** Il connettore non li espone.
@@ -122,7 +124,7 @@ smartstay-os/
     └── references/
         ├── autenticazione-e-permessi.md  chiavi, scope, rotazione
         ├── client-di-riferimento.md      client TypeScript e Python
-        ├── flussi-comuni.md              arrivi, pulizie, tassa, KPI, prenotazioni, fatture
+        ├── flussi-comuni.md              arrivi, pulizie, tassa, KPI, prenotazioni, fatture, scritture
         └── errori-e-limiti.md            codici di risposta e limiti
 ```
 

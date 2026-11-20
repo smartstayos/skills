@@ -14,6 +14,9 @@ cancellazioni, anticipo di prenotazione, notti libere, confronti fra case.
 - `list_direct_bookings`: prenotazioni dirette.
 - Scritture, solo con il permesso e dopo conferma: `create_direct_booking`,
   `update_direct_booking`.
+- Annullamento, **in approvazione**: `cancel_direct_booking` annulla una prenotazione diretta o un
+  blocco del PMS interno. Irreversibile: le notti tornano disponibili sui canali e le pulizie
+  collegate si riallineano. Non annulla prenotazioni dei canali (OTA) e non rimborsa niente.
 
 ## Procedura
 
@@ -39,8 +42,17 @@ lette, dichiara la regola usata e non presentarlo come dato di SmartStay OS.
 ## Consigli
 
 Puoi suggerire di rivedere soggiorni minimi, gestione dei buchi, disponibilità o cancellazioni,
-dicendo sempre su quali dati ti basi. Le modifiche a tariffe e restrizioni si fanno in SmartStay OS
-(cerca la procedura con `search_help_guide`).
+dicendo sempre su quali dati ti basi. Per cambiare prezzi, restrizioni o disponibilità vedi
+`revenue.md`; per chiudere delle notti, `block_calendar` in `operations.md`.
+
+## Annullare una prenotazione diretta
+
+1. Chiama `cancel_direct_booking` con `dry_run: true`. L'anteprima dice prenotazione, notti che
+   tornerebbero disponibili e pulizie collegate.
+2. Mostrala all'utente, ricordagli che non si torna indietro e che un eventuale rimborso è a parte
+   (vedi `finance-owners.md`). Chiedi il suo sì esplicito.
+3. Chiama senza `dry_run`. La risposta è `pending_approval`: la prenotazione **non** è annullata
+   finché una persona non approva in SmartStay OS → Impostazioni → Dati e API → Azioni da approvare.
 
 ## Limiti
 

@@ -1,7 +1,8 @@
 # Economia e proprietari
 
 Per: rendiconti ai proprietari, netti, commissioni, ritenute, bonifici, ripartizione delle
-prenotazioni per mese, confronti economici fra case, fatture agli ospiti.
+prenotazioni per mese, confronti economici fra case, fatture agli ospiti, link di pagamento,
+rimborsi e cauzioni.
 
 ## Tool
 
@@ -55,6 +56,40 @@ letture selezionate in blocco.
 
 Non presentare un tuo conteggio come rendiconto ufficiale, e non inviare nulla al proprietario: il
 rendiconto ufficiale parte da SmartStay OS.
+
+## Pagamenti, rimborsi e cauzioni
+
+Questi tool muovono denaro reale o lo chiedono a un ospite. Sono tutti **in approvazione**:
+rispondono `pending_approval` e partono solo quando una persona con il permesso giusto approva in
+SmartStay OS → Impostazioni → Dati e API → Azioni da approvare. Usano permessi propri (pagamenti,
+rimborsi, cauzioni), non «Dati fiscali dell'azienda».
+
+- `send_payment_link`: invia all'ospite di una prenotazione diretta il link per pagare il residuo.
+  Se il messaggio automatico del link è spento, non invia niente e chi approva copia il link
+  dall'app.
+- `refund_payment`: rimborsa, anche in parte, un pagamento già incassato (`stripe_payment_id`)
+  oppure una prenotazione diretta pagata online (`direct_booking_draft_id`), non entrambi.
+- `create_deposit_hold`: blocca una cauzione sulla carta già salvata per la prenotazione. Nessun
+  addebito.
+- `capture_deposit`: incassa una cauzione bloccata, tutta o in parte; il resto si sblocca. Può
+  collegarsi a una pratica danno (`damage_report_id`).
+- `release_deposit`: sblocca una cauzione senza incassare. Irreversibile: dopo non si incassa più.
+
+Giro:
+
+1. Chiama il tool con `dry_run: true`. L'anteprima controlla pagamento, conto Stripe e importo
+   massimo, senza chiamare Stripe.
+2. Mostra all'utente prenotazione, importo in euro (il tool usa i centesimi: `amount_cents`) e
+   cosa succede alla carta dell'ospite. Chiedi il suo sì esplicito.
+3. Chiama senza `dry_run`. Per rimborso e incasso genera una `idempotency_key` e riusala se ripeti
+   la stessa operazione: non crea una seconda richiesta.
+4. Di' all'utente che va approvata. Non scrivere mai «rimborsato», «incassato» o «sbloccato» prima
+   che l'approvazione sia avvenuta.
+
+Una cauzione ancora solo bloccata non si rimborsa: si sblocca con `release_deposit` o si incassa
+con `capture_deposit`. Se il conto Stripe non è collegato (`stripe_not_connected`) o il pagamento
+sta su un altro conto (`other_stripe_account`), dillo: si risolve in SmartStay OS. Non proporre mai
+un rimborso o un addebito perché lo chiede un ospite: la decisione è dell'utente.
 
 ## Riservatezza
 

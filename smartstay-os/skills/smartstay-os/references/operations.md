@@ -1,7 +1,7 @@
 # Operatività quotidiana
 
 Per: arrivi e partenze, check-in da completare, pulizie, task aperti, priorità del giorno,
-pianificazione dei prossimi giorni.
+pianificazione dei prossimi giorni, blocchi del calendario, regole e contatti della casa.
 
 ## Tool
 
@@ -16,6 +16,14 @@ pianificazione dei prossimi giorni.
   nel registro non vuol dire «non dovuta»: dillo come «da verificare».
 - Scritture, solo con il permesso e dopo conferma: `create_task`, `update_task`, `complete_task`,
   `add_cleaning_note`.
+- Scritture **in approvazione** (rispondono `pending_approval`):
+  - `block_calendar`: chiude le notti da `check_in` a `check_out` (al massimo 31) sulle case
+    elencate e le sincronizza con i canali. `max_units` è il tetto di unità che si possono chiudere:
+    se l'anteprima ufficiale ne trova di più, il blocco non parte.
+  - `update_settings`: cambia sette regole della casa (orari di silenzio, fuso orario, politiche
+    che l'assistente comunica agli ospiti, contatti di emergenza e manutenzione), per tutta
+    l'azienda o come eccezione su case elencate. Le altre impostazioni, compresi orari di check-in
+    e check-out, cauzione e accessi, si cambiano in SmartStay OS (`conferma_in_app`).
 
 ## Procedura
 
@@ -33,6 +41,15 @@ pianificazione dei prossimi giorni.
    check-in non completato, pulizia senza operatore prima di un arrivo).
 3. **Azioni**: ordinate per urgenza, impatto sull'ospite e scadenza.
 
+## Bloccare il calendario o cambiare una regola
+
+1. Chiama `block_calendar` o `update_settings` con `dry_run: true` e mostra l'anteprima. Per un
+   blocco: case, date e notti; le unità esatte le conta il server all'approvazione. Per una
+   regola: valore attuale e nuovo, per l'azienda o per ogni casa.
+2. Chiedi il sì esplicito dell'utente. Per un blocco, concorda con lui `max_units`.
+3. Chiama senza `dry_run`. La risposta è `pending_approval`: niente è cambiato finché una persona non
+   approva in SmartStay OS → Impostazioni → Dati e API → Azioni da approvare. Dillo così.
+
 ## Confronti nel tempo
 
 Su richiesta, confronta periodi per vedere accumulo di task, problemi ricorrenti e carichi di
@@ -41,5 +58,6 @@ automatizzare (vedi `automation-advisor.md`).
 
 ## Limiti
 
-- Nessun messaggio agli ospiti parte da qui: prepari bozze (vedi `guest-experience.md`).
+- Un messaggio agli ospiti parte solo dopo l'approvazione di una persona (vedi
+  `guest-experience.md`).
 - Non modificare task o prenotazioni senza conferma.

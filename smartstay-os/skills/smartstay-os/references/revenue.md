@@ -32,5 +32,29 @@ decidere.
 
 ## Azioni
 
-Dal connettore non si cambiano tariffe né restrizioni. Prepara la proposta e guida l'utente a
-farla in SmartStay OS (procedura con `search_help_guide`).
+Due tool cambiano prezzi e disponibilità sul Channel Manager di SmartStay OS. Sono **in
+approvazione**: rispondono `pending_approval` e partono solo quando una persona approva.
+
+- `set_rates_and_restrictions`: prezzo (fisso, variazione percentuale o in valuta) e restrizioni
+  (soggiorno minimo e massimo, chiuso all'arrivo, chiuso alla partenza, stop vendita) di una casa,
+  per un periodo e i giorni della settimana scelti. Senza `rate_plan_ids` vale per tutti i piani
+  base.
+- `set_availability`: unità disponibili di un tipo di camera, come valore assoluto
+  (`available_units`) o come variazione (`change`).
+
+Limiti: al più 62 notti per chiamata, nessuna notte già passata (ora di Roma). Le case col prezzo
+affidato a un revenue manager esterno non si toccano (`pricing_managed_externally`). Serve il PMS
+interno attivo (`pms_not_enabled`).
+
+Giro:
+
+1. Chiama il tool con `dry_run: true`. L'anteprima mostra i valori attuali e quelli nuovi, notte per
+   notte, e restituisce un `preview_ref`.
+2. Mostra all'utente cosa cambia: casa, periodo, giorni, prima e dopo. Chiedi il suo sì esplicito.
+3. Chiama senza `dry_run`, passando il `preview_ref`. Con `available_units` è obbligatorio.
+4. La risposta è `pending_approval`: niente è cambiato. Di' all'utente che va approvato in SmartStay
+   OS → Impostazioni → Dati e API → Azioni da approvare. Se all'approvazione i valori non sono più
+   quelli dell'anteprima, non cambia niente (`preview_changed`): si rifà l'anteprima.
+
+Dopo l'approvazione l'invio ai canali parte da solo. Proponi una variazione solo con i dati che la
+giustificano (vedi Metodo), mai come «sicuramente» redditizia.

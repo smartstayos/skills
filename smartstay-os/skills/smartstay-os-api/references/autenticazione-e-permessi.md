@@ -40,7 +40,38 @@ della spec (`x-required-scope`). I più usati:
 | prenotazioni dirette e blocchi | `bookings:create`, `bookings:update` |
 | fatture ospiti | `guest_invoices:read`, `:create`, `:validate`, `:number`, `:transmit` |
 
-Regola: leggere non implica mai scrivere, e non esistono scope «jolly». Se una chiamata risponde
+Scope di scrittura con approvazione: la richiesta risponde `202 pending_approval` e parte solo
+quando una persona con il permesso corrispondente la approva in SmartStay OS → Impostazioni → Dati
+e API → Azioni da approvare. Si esegue con la sessione di chi approva, non con la chiave.
+
+| Bisogno | Scope |
+|---|---|
+| prezzi e restrizioni sui canali | `rates:write` |
+| disponibilità sui canali | `availability:write` |
+| blocchi del calendario | `calendar:block` |
+| sette regole della casa (silenzio, fuso, politiche, contatti) | `settings:write` |
+| messaggi agli ospiti | `comms:send` |
+| risposte alle recensioni | `reviews:reply` |
+| decisioni sui servizi extra | `extra_services:decide` |
+| link per pagare il residuo | `payments:link` |
+| rimborsi | `payments:refund` |
+| cauzioni: blocco, incasso, sblocco | `deposits:manage` |
+| annullamento di una prenotazione diretta | `bookings:cancel` |
+
+Scope di scrittura diretti, senza approvazione:
+
+| Bisogno | Scope |
+|---|---|
+| assegnare una pulizia a un addetto | `housekeeping:assign` |
+| aprire una pratica danno | `damages:create` |
+
+Guida (`GET /v1/help/search`, `GET /v1/help/guides/{slug}`) e assistenza
+(`POST /v1/support-requests`) non chiedono scope: basta una chiave valida. La richiesta di
+assistenza parte a nome di chi ha creato la chiave.
+
+Regola: leggere non implica mai scrivere, e non esistono scope «jolly». Uno scope di scrittura
+non basta da solo: anche chi crea la chiave deve avere il permesso corrispondente, e per le azioni
+in approvazione deve averlo anche chi approva. Se una chiamata risponde
 403 `insufficient_scope`, manca proprio quello scope: si aggiunge creando una chiave nuova.
 
 ## Dove gira il codice
