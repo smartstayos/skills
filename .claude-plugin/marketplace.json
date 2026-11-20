@@ -1,6 +1,8 @@
 {
   "name": "smartstay-os",
-  "owner": { "name": "SmartStay" },
+  "owner": {
+    "name": "SmartStay"
+  },
   "metadata": {
     "description": "Plugin ufficiale di SmartStay OS per Claude: connettore MCP, skill e comandi per gestire affitti brevi dal tuo assistente."
   },
@@ -8,7 +10,7 @@
     {
       "name": "smartstay-os",
       "source": "./smartstay-os",
-      "description": "Prenotazioni, case, check-in, pulizie e ospiti di SmartStay OS, la guida del gestionale e l'assistenza SmartStay, dentro Claude.",
+      "description": "Prenotazioni, case, check-in, pulizie e ospiti di SmartStay OS, la guida del gestionale, l'assistenza SmartStay e l'integrazione dell'API REST, dentro Claude.",
       "category": "productivity"
     }
   ]

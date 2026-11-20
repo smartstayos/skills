@@ -5,7 +5,8 @@ presenze.
 
 ## Tool
 
-- `list_cleanings` (default da oggi in avanti).
+- `list_cleanings` (default da oggi in avanti): tipo, addetto (`assigned_staff_id`, il nome con
+  `get_staff`), «non prima di» / «pronta entro», ospiti e letti in arrivo, orari effettivi.
 - Scritture leggere, dopo conferma: `add_cleaning_note` (nota per la pulizia di un arrivo),
   `update_cleaning_beds` (configurazione dei letti).
 - Personale, lettura: `list_staff`, `get_staff`, `get_staff_qualifications`, `get_staff_schedule`,

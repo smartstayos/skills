@@ -11,6 +11,9 @@ pianificazione dei prossimi giorni.
   online, cauzione, tassa di soggiorno, pulizie, anomalie). Serve il permesso `operations:read`.
 - `get_checkin_status`: fase del check-in online di una prenotazione.
 - `list_cleanings`, `list_tasks`, `get_task`.
+- `list_tourist_tax_ledger` (`property_id`): tassa di soggiorno per soggiorno, con dovuto, quota
+  incassata dal canale, incassato e residuo. Permesso `tourist_tax:read`. Un soggiorno che non è
+  nel registro non vuol dire «non dovuta»: dillo come «da verificare».
 - Scritture, solo con il permesso e dopo conferma: `create_task`, `update_task`, `complete_task`,
   `add_cleaning_note`.
 

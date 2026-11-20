@@ -84,6 +84,21 @@ Le istruzioni d'uso e i flussi pronti arrivano direttamente da SmartStay OS, anc
 - **Documenti, foto e codici d'accesso restano fuori.** Il connettore non li espone.
 - **Revochi quando vuoi**, da SmartStay OS → Impostazioni → Dati e API → Assistenti AI (MCP).
 
+## Per chi scrive codice: integrare l'API
+
+Se colleghi un tuo software, un sito o uno script a SmartStay OS, il plugin contiene anche la skill
+**smartstay-os-api**. Chiedi a Claude, per esempio: «Scrivimi uno script che ogni mattina mi manda
+le pulizie del giorno con l'addetto» oppure «Collega il form del mio sito alle prenotazioni dirette».
+Claude legge la spec ufficiale, scrive il client con paginazione, nuovi tentativi e idempotenza, e
+tiene la chiave fuori dal codice.
+
+| | |
+|---|---|
+| Documentazione ed esempi | <https://api.smartstayos.com/docs> |
+| Spec OpenAPI 3.1 | <https://api.smartstayos.com/openapi.json> |
+| Collection Postman | <https://api.smartstayos.com/postman.json> (ambiente: <https://api.smartstayos.com/postman_environment.json>) |
+| Chiave API | SmartStay OS → Impostazioni → Dati e API → API & integrazioni |
+
 ## Cosa contiene
 
 ```
@@ -102,6 +117,13 @@ smartstay-os/
         ├── analytics-reports.md  report e indicatori
         ├── revenue.md            prezzi e occupazione
         └── finance-owners.md     rendiconti e proprietari
+└── skills/smartstay-os-api/
+    ├── SKILL.md                  come integrare l'API REST: spec, chiavi, regole
+    └── references/
+        ├── autenticazione-e-permessi.md  chiavi, scope, rotazione
+        ├── client-di-riferimento.md      client TypeScript e Python
+        ├── flussi-comuni.md              arrivi, pulizie, tassa, KPI, prenotazioni, fatture
+        └── errori-e-limiti.md            codici di risposta e limiti
 ```
 
 ## Assistenza
@@ -119,7 +141,10 @@ Per qualunque problema con il gestionale o con il plugin scrivi dall'assistenza 
 short-term rentals. Install it with `/plugin marketplace add smartstayos/skills` and
 `/plugin install smartstay-os@smartstay-os`, then sign in with your SmartStay OS account on first
 use. Claude reads your own company's data with the permissions you grant, follows the official
-guide and can draft a support request, which it sends only after you confirm. Content is in Italian.
+guide and can draft a support request, which it sends only after you confirm. Developers get a
+second skill, `smartstay-os-api`, to integrate the REST API (OpenAPI spec at
+<https://api.smartstayos.com/openapi.json>, Postman collection at
+<https://api.smartstayos.com/postman.json>). Content is in Italian.
 
 <br>
 

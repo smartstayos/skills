@@ -10,6 +10,9 @@ risposta, miglioramenti del servizio.
 - `get_booking`, `get_property`: contesto della prenotazione e della casa (orari, regole,
   dotazioni).
 - `list_guest_contacts`, `get_guest_contact`: rubrica ospiti, se il CRM è attivo.
+- `list_extra_service_requests`, `get_extra_service_requests`: servizi extra chiesti dagli ospiti
+  (late check-out, colazione, …) con stato di approvazione e di pagamento. Permesso
+  `extra_service_requests:read`.
 
 Non esiste un tool che invii messaggi agli ospiti.
 
