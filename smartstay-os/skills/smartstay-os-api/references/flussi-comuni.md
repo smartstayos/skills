@@ -136,6 +136,32 @@ Limiti: al più 62 notti per chiamata, nessuna notte passata. `409 pricing_manag
 prezzo di quella casa lo decide un revenue manager esterno. `403 pms_not_enabled`: il Channel
 Manager di SmartStay OS non è attivo.
 
+## Configurare il gestionale da zero
+
+Scope: `properties:write`, `room_types:write`, `rate_plans:write`, `channels:manage` (più
+`rates:write` e `availability:write` per i prezzi). Tutte rispondono 202 e si eseguono
+all'approvazione, con la sessione di chi approva, sugli stessi percorsi di SmartStay OS. Prima
+`dry_run: true`: controlla che casa, camera e piano siano del tuo tenant e che il Channel Manager
+sia attivo.
+
+1. `POST /v1/actions/create_property` con `name`, `address`, `city` (e un `property_id` scelto da
+   te per rendere idempotente il reinvio). La casa nasce in bozza: si completa e si attiva in
+   SmartStay OS. Correzioni con `POST /v1/actions/update_property`.
+2. `POST /v1/actions/create_room_type` con `property_id`, `title`, `occupancy`, `count_of_units`
+   (e un `room_type_id` scelto da te). All'approvazione la casa viene pubblicata sul canale con un piano base di
+   default. Modifiche con `POST /v1/actions/update_room_type`: i campi assenti restano.
+3. `POST /v1/actions/create_rate_plan`: piano base con `room_type_id`, oppure variante con
+   `parent_rate_plan_id` e `modifier_value`. Un reinvio dopo l'esecuzione crea un secondo piano:
+   rileggi con `GET /v1/resources/rate_plans`. Modifiche con `POST /v1/actions/update_rate_plan`.
+4. Prezzi e disponibilità con le azioni della sezione precedente.
+5. `POST /v1/actions/connect_channel` con il `channel_id` di un canale già collegato in SmartStay
+   OS: all'approvazione si accende solo se le case sono pronte e hanno i prezzi.
+   `POST /v1/actions/disconnect_channel` lo spegne.
+
+Creare un canale nuovo, abbinare gli annunci Airbnb e attivare la casa si fanno in SmartStay OS.
+Orari e regole della casa: `update_settings`. Codici d'accesso e WiFi non passano dall'API.
+Rilettura: `GET /v1/properties`, `GET /v1/resources/room_types`, `GET /v1/resources/rate_plans`.
+
 ## Messaggi, recensioni e servizi extra
 
 Scope: `comms:send`, `reviews:reply`, `extra_services:decide`.

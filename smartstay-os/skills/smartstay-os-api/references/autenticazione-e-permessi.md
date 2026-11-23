@@ -57,6 +57,10 @@ e API → Azioni da approvare. Si esegue con la sessione di chi approva, non con
 | rimborsi | `payments:refund` |
 | cauzioni: blocco, incasso, sblocco | `deposits:manage` |
 | annullamento di una prenotazione diretta | `bookings:cancel` |
+| case: creazione e modifica di nome, indirizzo, comune | `properties:write` |
+| tipologie di camera sul Channel Manager | `room_types:write` |
+| piani tariffari sul Channel Manager | `rate_plans:write` |
+| accensione e spegnimento di un canale già collegato | `channels:manage` |
 
 Scope di scrittura diretti, senza approvazione:
 

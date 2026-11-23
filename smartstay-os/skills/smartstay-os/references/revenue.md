@@ -58,3 +58,14 @@ Giro:
 
 Dopo l'approvazione l'invio ai canali parte da solo. Proponi una variazione solo con i dati che la
 giustificano (vedi Metodo), mai come «sicuramente» redditizia.
+
+## Struttura: case, camere, piani e canali
+
+Per configurare da zero ci sono altri tool **in approvazione**, con anteprima (`dry_run: true`):
+`create_property` e `update_property` (nome, indirizzo, comune), `create_room_type` e
+`update_room_type` (tipologie di camera), `create_rate_plan` e `update_rate_plan` (piano base su
+una camera o variante di un piano base), `connect_channel` e `disconnect_channel` (accendere o
+spegnere un canale già collegato in SmartStay OS). Stesso giro dei prezzi: anteprima, sì esplicito
+dell'utente, richiesta vera, `pending_approval`. Rileggi dopo l'approvazione con `list_room_types`
+e `list_rate_plans`. Un canale nuovo, l'abbinamento degli annunci e l'attivazione della casa si
+fanno in SmartStay OS: dillo invece di improvvisare.
