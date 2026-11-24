@@ -31,6 +31,9 @@ quota incassata dal canale, incassato, residuo e stato. Somma le righe del mese 
 `stay_check_in`. Un soggiorno che non compare nel registro **non** è «tassa non dovuta»: è da
 verificare in SmartStay OS.
 
+Riepilogo già sommato per casa e comune: `POST /v1/actions/get_tourist_tax_report` con `from`, `to`
+(al massimo 366 giorni, sulla data d'arrivo) e, se serve, `format: "csv"`.
+
 ## Servizi extra chiesti dagli ospiti
 
 Scope: `extra_service_requests:read`.
@@ -161,6 +164,23 @@ sia attivo.
 Creare un canale nuovo, abbinare gli annunci Airbnb e attivare la casa si fanno in SmartStay OS.
 Orari e regole della casa: `update_settings`. Codici d'accesso e WiFi non passano dall'API.
 Rilettura: `GET /v1/properties`, `GET /v1/resources/room_types`, `GET /v1/resources/rate_plans`.
+
+## Check-in, Questura, ISTAT e prolungamenti
+
+Letture (nessuna approvazione): `list_checkin_guests` e `get_checkin_evidence` con `booking_id`
+(scope `checkin:read`); `GET /v1/resources/questura_receipts`, poi `get_questura_receipt` con
+`receipt_id` per il PDF in base64, già verificato sull'impronta (scope `compliance:read`).
+
+Prolungamento: `check_stay_extension` con `booking_id` e `new_check_out` dice se si può, a che
+prezzo e come (diretta: date spostate; OTA con l'ospite in casa: prenotazione diretta collegata).
+Poi `create_stay_extension` con lo stesso `total_cents` in `expected_total_cents` (scope
+`bookings:update`): se il prezzo nel frattempo cambia risponde `409 prezzo_cambiato`.
+
+Scritture in approvazione, senza `dry_run`: `add_checkin_guest` (con `idempotency_key`),
+`approve_checkin_identity`, `reject_checkin_identity` (scope `checkin:write`);
+`send_questura_now`, `release_questura_supplement`, `send_istat_flow`, `send_turistat_flow` (scope
+`compliance:send`). Gli invii a Questura e Regione non si ritirano; se l'invio è spento lato
+piattaforma restano trattenuti, come in SmartStay OS.
 
 ## Messaggi, recensioni e servizi extra
 

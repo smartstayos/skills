@@ -16,6 +16,11 @@ pianificazione dei prossimi giorni, blocchi del calendario, regole e contatti de
   nel registro non vuol dire «non dovuta»: dillo come «da verificare».
 - Scritture, solo con il permesso e dopo conferma: `create_task`, `update_task`, `complete_task`,
   `add_cleaning_note`.
+- Check-in e adempimenti, in lettura: `list_checkin_guests` (ospiti registrati, mai documenti),
+  `get_checkin_evidence` (registro delle evidenze con impronte e controllo di continuità),
+  `list_questura_receipts` e `get_questura_receipt` (ricevuta PDF della Questura, verificata),
+  `get_tourist_tax_report` (`from`, `to`: totali per casa e comune, CSV con `format: "csv"`),
+  `check_stay_extension` (`booking_id`, `new_check_out`: si può prolungare? a che prezzo?).
 - Scritture **in approvazione** (rispondono `pending_approval`):
   - `block_calendar`: chiude le notti da `check_in` a `check_out` (al massimo 31) sulle case
     elencate e le sincronizza con i canali. `max_units` è il tetto di unità che si possono chiudere:
@@ -24,6 +29,13 @@ pianificazione dei prossimi giorni, blocchi del calendario, regole e contatti de
     che l'assistente comunica agli ospiti, contatti di emergenza e manutenzione), per tutta
     l'azienda o come eccezione su case elencate. Le altre impostazioni, compresi orari di check-in
     e check-out, cauzione e accessi, si cambiano in SmartStay OS (`conferma_in_app`).
+  - `create_stay_extension`: prolunga il soggiorno al prezzo di `check_stay_extension`
+    (`expected_total_cents`); se nel frattempo il prezzo cambia, non parte.
+  - `add_checkin_guest`, `approve_checkin_identity`, `reject_checkin_identity`: aggiungere un
+    ospite, approvare o rifiutare l'identità (il motivo del rifiuto lo riceve l'ospite).
+  - `send_questura_now`, `release_questura_supplement`, `send_istat_flow`, `send_turistat_flow`:
+    invii a Questura e flussi ISTAT. Sono comunicazioni a un'autorità: non si ritirano. Queste
+    azioni non hanno `dry_run`: mostra all'utente i parametri e chiedi il sì prima di chiamarle.
 
 ## Procedura
 
